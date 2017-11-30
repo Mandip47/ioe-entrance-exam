@@ -1,4 +1,3 @@
-$(document).ready(function(){
     var auth = Cookies.getJSON('auth');
     console.log(auth);
     if(auth){
@@ -7,6 +6,5 @@ $(document).ready(function(){
         console.log("Bypassed Login\nRedirecting to login page...");
         location.replace("../index.html");//In case someone gets access to this page without auth
     };
-});
 
 //Take examination still left.
