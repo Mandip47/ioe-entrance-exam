@@ -6,9 +6,13 @@ function blankFields(param) {
         return 0;
 }
 
+var repeatedLoginFail = false;
+var loginFailCount = 0;
+
 //authenticates the username and password
 function auth(text,pwd,param){
     //XmlHttpRequest to fetch valid usernames and password
+    if(loginFailCount>0){repeatedLoginFail=true}
     $.ajax({
       async : false,//Request should be sync instead of async because json(null) will be returned before http request can be completed.
       url : "json/users.json",
@@ -35,9 +39,12 @@ function auth(text,pwd,param){
         }else{
             //Show that usename and password is incorrect.
             console.log("Authentication Failed");
+            if(!repeatedLoginFail){
             $(".form-control").addClass("form-control-alert");
             $("#password").append('<span id="wrong" class="wrong">*Incorrect Username or Password or Both</span>');
+            }
             $("#text").val("");$("#pwd").val("");
+            loginFailCount++;
             param.preventDefault();
         };
       }
