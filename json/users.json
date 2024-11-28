@@ -1,16 +1,16 @@
 {
-    "Sanjeev":{
-        "userName":"1BB3",
-        "password":"root"
-    },
+  "Sanjeev": {
+    "userName": "1BB3",
+    "password": "root"
+  },
 
-    "Nabin":{
-        "userName":"debugger",
-        "password":"ladojastoputi"
-    }
+  "Nabin": {
+    "userName": "debugger",
+    "password": "5678"
+  },
+
+  "Mandip": {
+    "userName": "mandip",
+    "password": "1234"
+  }
 }
-
-
-
-
-  
