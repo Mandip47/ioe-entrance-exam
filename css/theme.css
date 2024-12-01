@@ -59,26 +59,142 @@ body {
 }
 
 
-.form-control-alert{
+.form-control-alert {
     box-shadow: 0px 0px 3px rgb(255, 0, 0);
-    border-color:  rgb(255, 0, 0);   
+    border-color: rgb(255, 0, 0);
 }
 
-.form-control-alert:focus{
+.form-control-alert:focus {
     box-shadow: 0px 0px 3px rgb(255, 0, 0);
-    border-color:  rgb(255, 0, 0);   
+    border-color: rgb(255, 0, 0);
 }
 
-.form-control-alert:hover{
+.form-control-alert:hover {
     box-shadow: 0px 0px 3px rgb(255, 0, 0);
-    border-color:  rgb(255, 0, 0);   
+    border-color: rgb(255, 0, 0);
 }
 
-.form-control-alert:active{
+.form-control-alert:active {
     box-shadow: 0px 0px 3px rgb(255, 0, 0);
-    border-color:  rgb(255, 0, 0);   
+    border-color: rgb(255, 0, 0);
 }
 
-.wrong{
-    color : rgb(255, 0, 0);
+.wrong {
+    color: rgb(255, 0, 0);
+}
+
+.question-content {
+    padding: 20px 62px;
+}
+
+.question-block {
+    margin-bottom: 20px;
+}
+
+.question-block h3 {
+    margin-bottom: 0px;
+    font-size: 1.7rem;
+    margin-left: 16px;
+}
+
+.question-marks {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 15px;
+    margin-left: 35px;
+}
+
+.options {
+    padding-left: 20px;
+}
+
+.form-check {
+    margin-bottom: 0px;
+}
+
+.form-check-label {
+    padding-left: 4px;
+    font-weight: normal;
+}
+
+/* for btns */
+
+/* Navigation Button Styles */
+.button-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.nav-button {
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 5px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    color: #555;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-button.previous:hover {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.nav-button.next {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.nav-button.next:hover {
+    background-color: #e0f0ff;
+    color: #0056b3;
+}
+
+/* Disable button styles */
+.nav-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.action-buttons-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f4f4f4;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.button {
+    position: relative;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    text-decoration: none;
+}
+
+.button:hover {
+    filter: brightness(1.1);
+}
+
+.arrow {
+    margin-left: 5px;
+}
+
+/* Keep existing navigation button styles */
+.button-container {
+    margin-bottom: 20px;
 }

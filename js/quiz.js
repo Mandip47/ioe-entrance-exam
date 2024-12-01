@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
       ans3_txt: "\\(/beŋk/\\)",
       ans4_txt: "\\(/bɔŋk/\\)",
       right_answer: "ans1",
+      marks: "1",
     },
     {
       question_title: "A person in charge of a public building is",
@@ -16,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
       ans3_txt: "artist",
       ans4_txt: "custodian",
       right_answer: "ans4",
+      marks: "1",
     },
   ];
 
@@ -39,10 +41,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const questionElement = document.createElement("div");
     questionElement.classList.add("question-block");
 
-    // Question title
+    // Question title with number
     const titleElement = document.createElement("h3");
-    titleElement.innerHTML = questionData.question_title;
+    titleElement.innerHTML = `<strong>${currentQuestionIndex + 1}.</strong> ${
+      questionData.question_title
+    }`;
     questionElement.appendChild(titleElement);
+
+    // Add marks line
+    const marksElement = document.createElement("div");
+    marksElement.classList.add("question-marks");
+    marksElement.innerHTML = `[${questionData.marks} ${
+      questionData.marks ? "Marks" : ""
+    }]`;
+    questionElement.appendChild(marksElement);
 
     // Answer options
     const optionsContainer = document.createElement("div");
@@ -60,12 +72,10 @@ document.addEventListener("DOMContentLoaded", function () {
       radioInput.id = ansKey;
       radioInput.classList.add("form-check-input");
 
-      // Check if this question has been answered
       if (userAnswers[currentQuestionIndex] === ansKey) {
         radioInput.checked = true;
       }
 
-      // Add change event listener to track answers
       radioInput.addEventListener("change", () => {
         if (!userAnswers[currentQuestionIndex]) {
           answeredQuestions++;
@@ -93,38 +103,61 @@ document.addEventListener("DOMContentLoaded", function () {
     questionContainer.innerHTML = "";
     const currentQuestion = quizData[currentQuestionIndex];
     const questionElement = createQuestionElement(currentQuestion);
+
+    // Navigation buttons (Previous/Next)
+    const navigationContainer = document.createElement("div");
+    navigationContainer.classList.add("button-container");
+
+    const prevButton = document.createElement("button");
+    prevButton.classList.add("nav-button", "previous");
+    prevButton.textContent = "Previous";
+    prevButton.disabled = currentQuestionIndex === 0;
+    prevButton.addEventListener("click", () => {
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderQuestion();
+      }
+    });
+
+    const nextButton = document.createElement("button");
+    nextButton.classList.add("nav-button", "next");
+    nextButton.textContent = "Next";
+    nextButton.disabled = currentQuestionIndex === quizData.length - 1;
+    nextButton.addEventListener("click", () => {
+      if (currentQuestionIndex < quizData.length - 1) {
+        currentQuestionIndex++;
+        renderQuestion();
+      }
+    });
+
+    navigationContainer.appendChild(prevButton);
+    navigationContainer.appendChild(nextButton);
+
+    // Add the new action buttons container
+    const actionButtonsContainer = document.createElement("div");
+    actionButtonsContainer.classList.add("action-buttons-container");
+
+    const submitButton = document.createElement("button");
+    submitButton.classList.add("button");
+    submitButton.textContent = "Submit";
+    submitButton.addEventListener("click", () => {
+      alert("Quiz submitted! Implement scoring logic here.");
+    });
+
+    const topButton = document.createElement("button");
+    topButton.classList.add("button");
+    topButton.innerHTML = 'Go to top <span class="arrow">⬆</span>';
+    topButton.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    actionButtonsContainer.appendChild(submitButton);
+    actionButtonsContainer.appendChild(topButton);
+
     questionContainer.appendChild(questionElement);
-
-    // Update navigation buttons
-    prevBtn.disabled = currentQuestionIndex === 0;
-    nextBtn.disabled = currentQuestionIndex === quizData.length - 1;
-    submitBtn.style.display =
-      currentQuestionIndex === quizData.length - 1 ? "inline-block" : "none";
+    questionContainer.appendChild(navigationContainer);
+    questionContainer.appendChild(actionButtonsContainer);
   }
-
-  // Navigation event listeners
-  prevBtn.addEventListener("click", () => {
-    if (currentQuestionIndex > 0) {
-      currentQuestionIndex--;
-      renderQuestion();
-    }
-  });
-
-  nextBtn.addEventListener("click", () => {
-    if (currentQuestionIndex < quizData.length - 1) {
-      currentQuestionIndex++;
-      renderQuestion();
-    }
-  });
-
-  // Submit button event listener
-  submitBtn.addEventListener("click", () => {
-    // Here you would typically:
-    // 1. Collect and validate answers
-    // 2. Calculate score
-    // 3. Show results
-    alert("Quiz submitted! Implement scoring logic here.");
-  });
 
   // Initial render
   renderQuestion();
