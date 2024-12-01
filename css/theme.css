@@ -169,9 +169,14 @@ body {
     margin-top: 20px;
 }
 
+.action-buttons-container .button {
+    min-width: 100px;
+}
+
 .button {
     position: relative;
-    background-color: #007bff;
+    height: 35px;
+    background-color: #005ED0;
     color: white;
     border: none;
     border-radius: 5px;
