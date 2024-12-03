@@ -346,7 +346,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const unansweredLink = document.querySelector(".unanswered-link");
     if (unansweredLink) {
       const answeredPercentage = (answeredQuestions / totalQuestions) * 100;
-      if (answeredPercentage >= 40 && answeredPercentage <= 60) {
+      if (answeredPercentage >= 1 && answeredPercentage <= 60) {
         unansweredLink.style.display = "block";
       } else {
         unansweredLink.style.display = "none";
@@ -389,15 +389,47 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Add click handler for unanswered questions link
+  // Replace the click handler for unanswered questions link
   document.addEventListener("click", function (e) {
     if (e.target.classList.contains("unanswered-link")) {
       e.preventDefault();
-      // Implement logic to show unanswered questions
       const unansweredIndices = userAnswers
         .map((ans, index) => (ans === null ? index + 1 : null))
         .filter((index) => index !== null);
-      alert(`Unanswered questions: ${unansweredIndices.join(", ")}`);
+
+      // Create and show popup
+      const overlay = document.createElement("div");
+      overlay.className = "unanswered-popup-overlay";
+
+      const popup = document.createElement("div");
+      popup.className = "unanswered-popup";
+      popup.innerHTML = `
+        <div class="unanswered-popup-content">
+          <span class="popup-close">&times;</span>
+          <h3>Unanswered Questions</h3>
+          <p id="container">${unansweredIndices.join(", ")}</p>
+          <button class="popup-ok-button">OK</button>
+        </div>
+      `;
+
+      overlay.appendChild(popup);
+      document.body.appendChild(overlay);
+
+      // Add event listeners for closing popup
+      const closePopup = () => {
+        document.body.removeChild(overlay);
+      };
+
+      overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) {
+          closePopup();
+        }
+      });
+
+      popup.querySelector(".popup-close").addEventListener("click", closePopup);
+      popup
+        .querySelector(".popup-ok-button")
+        .addEventListener("click", closePopup);
     }
   });
 
