@@ -319,22 +319,39 @@ document.addEventListener("DOMContentLoaded", function () {
     const infoCardContainer = document.getElementById("info-card-container");
 
     const cardHTML = `
-      <div class="card">
-        <div class="profile">
-          <img src="../assets/profile.webp" alt="Profile Picture" />
+        <div class="card">
+            <div class="profile">
+                <img src="../assets/profile.webp" alt="Profile Picture" />
+            </div>
+            <div class="details">
+                <h2>Sagar Khyaju <span><strong>(2071-56)</strong></span></h2>
+                <p>Time Remaining: <span class="time">2:00:00</span></p>
+                <p>
+                    You have answered <strong id="answered-count">0</strong> out of <strong>${totalQuestions}</strong>
+                </p>
+                <a href="#" class="unanswered-link" style="display: none;">View unanswered questions</a>
+            </div>
         </div>
-        <div class="details">
-          <h2>Sagar Khyaju <span>(2071-56)</span></h2>
-          <p><strong>Time Remaining:</strong> <span class="time">2:00:00</span></p>
-          <p>
-            You have answered <strong id="answered-count">0</strong> out of <strong>${totalQuestions}</strong>.
-          </p>
-          <a href="#" class="unanswered-link">View unanswered questions</a>
-        </div>
-      </div>
     `;
 
     infoCardContainer.innerHTML = cardHTML;
+  }
+
+  function updateAnsweredQuestions() {
+    const answeredCount = document.getElementById("answered-count");
+    if (answeredCount) {
+      answeredCount.textContent = answeredQuestions;
+    }
+
+    const unansweredLink = document.querySelector(".unanswered-link");
+    if (unansweredLink) {
+      const answeredPercentage = (answeredQuestions / totalQuestions) * 100;
+      if (answeredPercentage >= 40 && answeredPercentage <= 60) {
+        unansweredLink.style.display = "block";
+      } else {
+        unansweredLink.style.display = "none";
+      }
+    }
   }
 
   function updateTimer() {
@@ -515,6 +532,13 @@ document.addEventListener("DOMContentLoaded", function () {
     questionContainer.appendChild(navigationContainer);
     questionContainer.appendChild(actionButtonsContainer);
   }
+
+  // Call updateAnsweredQuestions whenever an answer is selected
+  document.addEventListener("change", function (e) {
+    if (e.target.classList.contains("form-check-input")) {
+      updateAnsweredQuestions();
+    }
+  });
 
   // Initial render
   renderQuestion();

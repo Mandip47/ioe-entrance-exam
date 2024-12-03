@@ -205,56 +205,85 @@ body {
     margin-bottom: 20px;
 }
 
-/* Add these styles for the info card container */
+/* Update the info card container styles */
 #info-card-container {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 1000;
+    position: sticky;
+    top: 20px;
+    /* Distance from top when sticky */
+    float: right;
     width: 400px;
+    margin-right: 20px;
+    z-index: 1000;
+
 }
 
-/* Modify the existing card styles to work in the new context */
+#info-card-container {
+    position: sticky;
+    top: 54px;
+    float: right;
+    width: 298px;
+    margin-right: 9px;
+    z-index: 1000;
+}
+
+
+/* Keep the existing card styles but update positioning context */
+.info {
+    position: relative;
+    /* Create positioning context */
+    border: 1px solid #dfdfdf;
+    background-color: white;
+    border-radius: 2px;
+}
+
 #info-card-container .card {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     background-color: #008cba;
     color: white;
     border-radius: 10px;
-    padding: 20px;
+    padding: 10px;
     width: 100%;
+    height: 153px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+#info-card-container .profile {
+    order: 2;
+}
+
 #info-card-container .profile img {
-    width: 80px;
-    height: 100px;
+    width: 60px;
+    height: 80px;
     border-radius: 5px;
     object-fit: cover;
 }
 
 #info-card-container .details {
-    margin-left: 20px;
-    line-height: 1.6;
+    margin-right: 10px;
+    line-height: 1.4;
+    order: 1;
 }
 
 #info-card-container .details h2 {
-    font-size: 18px;
+    font-size: 20px;
     margin: 0;
+    margin-bottom: 13px;
 }
 
 #info-card-container .details h2 span {
     font-weight: normal;
-    font-size: 16px;
+    font-size: 18px;
 }
 
 #info-card-container .details .time {
     font-weight: bold;
-    font-size: 16px;
+    font-size: 18px;
 }
 
 #info-card-container .unanswered-link {
     color: white;
     text-decoration: underline;
-    font-size: 14px;
+    font-size: 12px;
 }
