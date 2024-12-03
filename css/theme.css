@@ -15,6 +15,7 @@ body {
 }
 
 .info {
+    position: relative;
     border: 1px solid #dfdfdf;
     background-color: white;
     border-radius: 2px;
@@ -202,4 +203,58 @@ body {
 /* Keep existing navigation button styles */
 .button-container {
     margin-bottom: 20px;
+}
+
+/* Add these styles for the info card container */
+#info-card-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    width: 400px;
+}
+
+/* Modify the existing card styles to work in the new context */
+#info-card-container .card {
+    display: flex;
+    align-items: center;
+    background-color: #008cba;
+    color: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#info-card-container .profile img {
+    width: 80px;
+    height: 100px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+#info-card-container .details {
+    margin-left: 20px;
+    line-height: 1.6;
+}
+
+#info-card-container .details h2 {
+    font-size: 18px;
+    margin: 0;
+}
+
+#info-card-container .details h2 span {
+    font-weight: normal;
+    font-size: 16px;
+}
+
+#info-card-container .details .time {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#info-card-container .unanswered-link {
+    color: white;
+    text-decoration: underline;
+    font-size: 14px;
 }

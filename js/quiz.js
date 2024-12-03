@@ -312,6 +312,81 @@ document.addEventListener("DOMContentLoaded", function () {
   const answeredQuestionsDisplay =
     document.getElementById("answered-questions");
 
+  // Add these variables
+  let examStarted = false;
+
+  function createInfoCard() {
+    const infoCardContainer = document.getElementById("info-card-container");
+
+    const cardHTML = `
+      <div class="card">
+        <div class="profile">
+          <img src="../assets/profile.webp" alt="Profile Picture" />
+        </div>
+        <div class="details">
+          <h2>Sagar Khyaju <span>(2071-56)</span></h2>
+          <p><strong>Time Remaining:</strong> <span class="time">2:00:00</span></p>
+          <p>
+            You have answered <strong id="answered-count">0</strong> out of <strong>${totalQuestions}</strong>.
+          </p>
+          <a href="#" class="unanswered-link">View unanswered questions</a>
+        </div>
+      </div>
+    `;
+
+    infoCardContainer.innerHTML = cardHTML;
+  }
+
+  function updateTimer() {
+    if (!examStarted || timeRemaining <= 0) return;
+
+    const hours = Math.floor(timeRemaining / 3600);
+    const minutes = Math.floor((timeRemaining % 3600) / 60);
+    const seconds = timeRemaining % 60;
+
+    const timeDisplay = document.querySelector(".time");
+    if (timeDisplay) {
+      timeDisplay.textContent = `${hours}:${String(minutes).padStart(
+        2,
+        "0"
+      )}:${String(seconds).padStart(2, "0")}`;
+    }
+
+    timeRemaining--;
+
+    if (timeRemaining <= 0) {
+      alert("Time is up!");
+      // Implement exam submission logic here
+    }
+  }
+
+  function startExam() {
+    examStarted = true;
+    createInfoCard();
+    setInterval(updateTimer, 1000);
+
+    // Update answered questions count when an answer is selected
+    const answeredCount = document.getElementById("answered-count");
+    if (answeredCount) {
+      answeredCount.textContent = answeredQuestions;
+    }
+  }
+
+  // Add click handler for unanswered questions link
+  document.addEventListener("click", function (e) {
+    if (e.target.classList.contains("unanswered-link")) {
+      e.preventDefault();
+      // Implement logic to show unanswered questions
+      const unansweredIndices = userAnswers
+        .map((ans, index) => (ans === null ? index + 1 : null))
+        .filter((index) => index !== null);
+      alert(`Unanswered questions: ${unansweredIndices.join(", ")}`);
+    }
+  });
+
+  // Call startExam when you want to begin the exam
+  startExam();
+
   function createQuestionElement(questionData, questionIndex) {
     const questionElement = document.createElement("div");
     questionElement.classList.add("question-block");
