@@ -403,17 +403,61 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const popup = document.createElement("div");
       popup.className = "unanswered-popup";
+
+      // Create clickable links for each unanswered question
+      const unansweredLinks = unansweredIndices
+        .map(
+          (questionNumber) =>
+            `<a href="#" class="unanswered-question-link" data-question="${
+              questionNumber - 1
+            }">${questionNumber}</a>`
+        )
+        .join(", ");
+
       popup.innerHTML = `
         <div class="unanswered-popup-content">
           <span class="popup-close">&times;</span>
           <h3>Unanswered Questions</h3>
-          <p id="container">${unansweredIndices.join(", ")}</p>
+          <p id="container">${unansweredLinks}</p>
           <button class="popup-ok-button">OK</button>
         </div>
       `;
 
       overlay.appendChild(popup);
       document.body.appendChild(overlay);
+
+      // Add click handler for question links
+      popup.addEventListener("click", function (e) {
+        if (e.target.classList.contains("unanswered-question-link")) {
+          e.preventDefault();
+          const questionIndex = parseInt(e.target.dataset.question);
+          currentPage = Math.floor(questionIndex / questionsPerPage);
+          renderQuestion();
+          document.body.removeChild(overlay);
+
+          // Scroll to the specific question with offset
+          setTimeout(() => {
+            const questionElement = document.getElementById(
+              `ans1_${questionIndex}`
+            );
+            if (questionElement) {
+              const questionBlock = questionElement.closest(".question-block");
+              if (questionBlock) {
+                const offset = 100; // Adjust this value to control how much space appears above
+                const elementPosition =
+                  questionBlock.getBoundingClientRect().top;
+                const offsetPosition =
+                  elementPosition + window.scrollY - offset;
+
+                window.scrollTo({
+                  top: offsetPosition,
+                  behavior: "smooth",
+                });
+              }
+            }
+          }, 100);
+        }
+      });
 
       // Add event listeners for closing popup
       const closePopup = () => {
