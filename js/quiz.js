@@ -318,6 +318,16 @@ document.addEventListener("DOMContentLoaded", function () {
   function createInfoCard() {
     const infoCardContainer = document.getElementById("info-card-container");
 
+    infoCardContainer.style.transition = "top 0.3s ease";
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 54) {
+        infoCardContainer.style.top = "16px";
+      } else {
+        infoCardContainer.style.top = "54px";
+      }
+    });
+
     const cardHTML = `
         <div class="card">
             <div class="profile">
