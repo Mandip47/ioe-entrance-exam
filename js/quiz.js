@@ -356,7 +356,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const unansweredLink = document.querySelector(".unanswered-link");
     if (unansweredLink) {
       const answeredPercentage = (answeredQuestions / totalQuestions) * 100;
-      if (answeredPercentage >= 1 && answeredPercentage <= 60) {
+      if (answeredPercentage >= 1 && answeredPercentage <= 100) {
         unansweredLink.style.display = "block";
       } else {
         unansweredLink.style.display = "none";
@@ -414,24 +414,36 @@ document.addEventListener("DOMContentLoaded", function () {
       const popup = document.createElement("div");
       popup.className = "unanswered-popup";
 
-      // Create clickable links for each unanswered question
-      const unansweredLinks = unansweredIndices
-        .map(
-          (questionNumber) =>
-            `<a href="#" class="unanswered-question-link" data-question="${
-              questionNumber - 1
-            }">${questionNumber}</a>`
-        )
-        .join(", ");
+      // Check if all questions are answered
+      if (unansweredIndices.length === 0) {
+        popup.innerHTML = `
+          <div class="unanswered-popup-content">
+            <span class="popup-close">&times;</span>
+            <h3>Congratulations!</h3>
+            <p>You have answered all the questions so Best Of Luck</p>
+            <button class="popup-ok-button">OK</button>
+          </div>
+        `;
+      } else {
+        // Create clickable links for each unanswered question
+        const unansweredLinks = unansweredIndices
+          .map(
+            (questionNumber) =>
+              `<a href="#" class="unanswered-question-link" data-question="${
+                questionNumber - 1
+              }">${questionNumber}</a>`
+          )
+          .join(", ");
 
-      popup.innerHTML = `
-        <div class="unanswered-popup-content">
-          <span class="popup-close">&times;</span>
-          <h3>Unanswered Questions</h3>
-          <p id="container">${unansweredLinks}</p>
-          <button class="popup-ok-button">OK</button>
-        </div>
-      `;
+        popup.innerHTML = `
+          <div class="unanswered-popup-content">
+            <span class="popup-close">&times;</span>
+            <h3>Unanswered Questions</h3>
+            <p id="container">${unansweredLinks}</p>
+            <button class="popup-ok-button">OK</button>
+          </div>
+        `;
+      }
 
       overlay.appendChild(popup);
       document.body.appendChild(overlay);
@@ -602,9 +614,78 @@ document.addEventListener("DOMContentLoaded", function () {
     submitButton.style.visibility =
       endIndex >= quizData.length ? "visible" : "hidden";
     submitButton.addEventListener("click", () => {
-      alert("Quiz submitted! Implement scoring logic here.");
+      const overlay = document.createElement("div");
+      overlay.className = "unanswered-popup-overlay";
+
+      const popup = document.createElement("div");
+      popup.className = "unanswered-popup";
+
+      popup.innerHTML = `
+        <div class="unanswered-popup-content">
+          <span class="popup-close">&times;</span>
+          <h3>Confirm Submission</h3>
+          <p>You have answered '${answeredQuestions}' out of '${totalQuestions}'. You won't be able to re-take exam once it is submitted. Do you want to submit anyway?</p>
+          <button class="popup-ok-button">OK</button>
+        </div>
+      `;
+
+      overlay.appendChild(popup);
+      document.body.appendChild(overlay);
+
+      // Add event listeners for closing popup
+      const closePopup = () => {
+        document.body.removeChild(overlay);
+      };
+
+      overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) {
+          closePopup();
+        }
+      });
+
+      popup.querySelector(".popup-close").addEventListener("click", closePopup);
+      popup.querySelector(".popup-ok-button").addEventListener("click", () => {
+        closePopup();
+
+        // Create new success popup
+        const successOverlay = document.createElement("div");
+        successOverlay.className = "unanswered-popup-overlay";
+
+        const successPopup = document.createElement("div");
+        successPopup.className = "unanswered-popup";
+
+        successPopup.innerHTML = `
+          <div class="unanswered-popup-content">
+            <span class="popup-close">&times;</span>
+            <h3>Success</h3>
+            <p>Your answers have been submitted successfully.</p>
+            <button class="popup-ok-button">OK</button>
+          </div>
+        `;
+
+        successOverlay.appendChild(successPopup);
+        document.body.appendChild(successOverlay);
+
+        // Add event listeners for success popup
+        const closeSuccessPopup = () => {
+          document.body.removeChild(successOverlay);
+          // TODO: Add redirect to submission page here
+        };
+
+        successOverlay.addEventListener("click", (e) => {
+          if (e.target === successOverlay) {
+            closeSuccessPopup();
+          }
+        });
+
+        successPopup
+          .querySelector(".popup-close")
+          .addEventListener("click", closeSuccessPopup);
+        successPopup
+          .querySelector(".popup-ok-button")
+          .addEventListener("click", closeSuccessPopup);
+      });
     });
-    actionButtonsContainer.appendChild(submitButton);
 
     const topButton = document.createElement("button");
     topButton.classList.add("button");
@@ -613,6 +694,7 @@ document.addEventListener("DOMContentLoaded", function () {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
+    actionButtonsContainer.appendChild(submitButton);
     actionButtonsContainer.appendChild(topButton);
 
     questionContainer.appendChild(navigationContainer);
