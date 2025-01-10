@@ -297,3 +297,21 @@ body {
 .unanswered-question-link:hover {
     cursor: pointer;
 }
+
+/* submission */
+
+.submission-content {
+    padding: 15px 0px;
+}
+
+.submission-content h1 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: revert;
+}
+
+.submission-content p {
+    font-size: 1.2em;
+    color: #666;
+    margin-bottom: 40px;
+}

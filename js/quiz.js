@@ -669,7 +669,10 @@ document.addEventListener("DOMContentLoaded", function () {
         // Add event listeners for success popup
         const closeSuccessPopup = () => {
           document.body.removeChild(successOverlay);
-          // TODO: Add redirect to submission page here
+          // TODO: Add your backend submission logic here
+
+          // After backend logic, redirect to submission page
+          window.location.href = "submission.html";
         };
 
         successOverlay.addEventListener("click", (e) => {
